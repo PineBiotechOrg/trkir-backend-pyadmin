@@ -1,0 +1,17 @@
+pymongo
+Blueprint
+requests
+gunicorn
+pycryptodome
+python-dateutil
+iso8601
+Django===2.2.9
+psycopg2-binary
+django-rest-swagger===2.2.0
+djangorestframework===3.10.3
+pylint
+pre-commit
+autopep8
+pylint-django
+gevent
+influxdb
