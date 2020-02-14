@@ -7,8 +7,9 @@ from rest_framework import status
 
 from common.helpers.create_custom_response import create_custom_response
 from common.constants import COOKIE_NAME
-from users.models import Users
-from users.providers.constants import Providers, OAUTH_KEY_FOR_DES
+from users.models import Users, Cookies
+from users.providers.enums import Providers
+from users.providers.constants import OAUTH_KEY_FOR_DES
 
 
 def check_oauth_provider(provider):
@@ -71,8 +72,7 @@ def decrypt_cookie(target):
 
 def check_cookie(cookie):
     try:
-        user = model_to_dict(Users.objects.filter(cookies__contains=[cookie])[0])
-        user_cookies_info(user).index(cookie)
+        user = model_to_dict(Cookies.objects.filter(cookie=cookie)[0].user)
 
         return decrypt_cookie(cookie), user
     except Exception as e:
@@ -85,16 +85,6 @@ def user_cookies_info(user):
         return cookies if type(cookies) == list else [cookies]
 
     return []
-
-
-def delete_cookie(login, cookie):
-    if not login or not cookie:
-        return
-
-    user = model_to_dict(Users.objects.get(login=login))
-
-    new_cookies = user['cookies'].remove(cookie)
-    Users.objects.filter(login=login).update(cookies=new_cookies)
 
 
 def get_cookie_expires_date_from_seconds(target):

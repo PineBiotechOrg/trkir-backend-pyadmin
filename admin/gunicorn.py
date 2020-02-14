@@ -1,3 +1,6 @@
+import gevent.monkey
+gevent.monkey.patch_all()
+
 from multiprocessing import cpu_count
 
 from common.constants import ENV, Envs

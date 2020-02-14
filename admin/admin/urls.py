@@ -17,11 +17,8 @@ from django.contrib import admin
 from django.urls import include
 from django.conf.urls import url
 
-from rest_framework_swagger.views import get_swagger_view
 
 BASE_URL = 'api/v1'
-
-schema_view = get_swagger_view(title='TRKIR API')
 
 
 def make_base_url(route_path=None):
@@ -35,11 +32,11 @@ urlpatterns = [
     # Project routes
     url(make_base_url('cameras'), include('cameras.urls')),
     url(make_base_url('experiments'), include('experiments.urls')),
+    url(make_base_url('mice'), include('mice.urls')),
+    url(make_base_url('analysis'), include('analysis.urls')),
+    url(make_base_url('favorite_mice'), include('favorite_mice.urls')),
     url(make_base_url('users'), include('users.urls')),
 
     # Admin
     url(r'^admin/', admin.site.urls),
-
-    # Swagger
-    url(make_base_url('swagger'), schema_view),
 ]

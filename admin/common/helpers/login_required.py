@@ -1,5 +1,6 @@
 from functools import wraps
-import datetime
+from datetime import datetime
+
 from rest_framework import status
 
 
@@ -30,7 +31,7 @@ def login_required():
             # TODO: Проверить токен google на expires и сделать refresh google токена,
             # если истекает срок жизни (~ < 2 дней)
             # TODO: Написать тесты на проверку даты
-            if expires_date < datetime.datetime.now():
+            if expires_date < datetime.now():
                 response = create_custom_response(
                     status.HTTP_401_UNAUTHORIZED,
                     {'reason': 'cookie is expired'}

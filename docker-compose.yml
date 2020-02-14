@@ -2,14 +2,13 @@ version: '2'
 
 services:
     pyadmin_test:
+        env_file:
+            - docker/.env
         build:
             context: .
             dockerfile: docker/Dockerfile
         ports:
             - "8061:8061"
         restart: always
-        env_file:
-            - docker/.env
         network_mode: "host"
         command: "/usr/local/bin/gunicorn --workers=4 --max-requests=1000 --timeout 4000 -c gunicorn.py admin.wsgi"
-

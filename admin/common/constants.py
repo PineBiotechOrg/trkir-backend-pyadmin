@@ -30,7 +30,7 @@ class Envs(Enum):
     Stable = 'STABLE'
 
 
-ENV = os.environ.get('ENV', Envs.Test.value)
+ENV = os.getenv('ENV', Envs.Test.value)
 
 
 # Roles

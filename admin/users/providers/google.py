@@ -6,12 +6,11 @@ class GoogleAuthAPI:
     provider = 'google'
     client_id = os.getenv('GOOGLE_APP_CLIENT_ID')
     client_secret = os.getenv('GOOGLE_APP_CLIENT_SECRET')
-    redirect_uri = os.getenv('GOOGLE_APP_REDIRECT_URI')
     info_host = 'https://www.googleapis.com/oauth2/v1'
     token_host = 'https://www.googleapis.com/oauth2/v4/token'
 
     @staticmethod
-    def get_oauth_token(code):
+    def get_oauth_token(code, redirect_url):
         return requests.post(
             GoogleAuthAPI.token_host,
             headers={
@@ -20,7 +19,7 @@ class GoogleAuthAPI:
             data={
                 'client_id': GoogleAuthAPI.client_id,
                 'client_secret': GoogleAuthAPI.client_secret,
-                'redirect_uri': GoogleAuthAPI.redirect_uri,
+                'redirect_uri': redirect_url,
                 'grant_type': 'authorization_code',
                 'code': code,
             }

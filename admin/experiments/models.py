@@ -1,32 +1,24 @@
 from django.db import models
 
-from .helpers.experiment_status_class import ExperimentStatus
-from cameras.models import Cameras
+from common.models import BasicDateModel
+from users.models import Users
+from .constants.enums import ExperimentStatuses
 
 
-class Experiments(models.Model):
-    user = models.CharField(max_length=512)
+class Experiments(BasicDateModel):
+    user = models.ForeignKey(Users, on_delete=models.CASCADE)
 
     title = models.CharField(max_length=512)
     description = models.CharField(max_length=1024, null=True)
     status = models.CharField(
         max_length=124,
-        choices=ExperimentStatus.choices(),
-        default=ExperimentStatus.CREATED.value,
+        choices=ExperimentStatuses.choices(),
+        default=ExperimentStatuses.Create.value,
     )
     place = models.CharField(max_length=512, null=True)
 
-    date_added = models.DateTimeField()
-    date_changed = models.DateTimeField(null=True)
     date_start = models.DateTimeField(null=True)
     date_end = models.DateTimeField(null=True)
 
-
-class Mice(models.Model):
-    user = models.CharField(max_length=512)
-    camera = models.ForeignKey(Cameras, on_delete=models.DO_NOTHING)
-    experiment = models.ForeignKey(Experiments, on_delete=models.CASCADE)
-    name = models.CharField(max_length=512)
-    description = models.CharField(max_length=1024, null=True)
-    virus = models.CharField(max_length=512, null=True)
-
+    class Meta:
+        unique_together = (('user', 'title'),)

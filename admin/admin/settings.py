@@ -22,7 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY') if ENV == Envs.Stable.value else '(x_%9!%ww#9rs7+ew)j8^uo7r2tptl&gji2kvubx(nvab_3fe*'
+SECRET_KEY = os.getenv('SECRET_KEY') if ENV == Envs.Stable.value else '(x_%9!%ww#9rs7+ew)j8^uo7r2tptl&gji2kvubx(nvab_3fe*'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = ENV != Envs.Stable.value
@@ -43,17 +43,17 @@ INSTALLED_APPS = [
 
     'cameras.apps.CamerasConfig',
     'experiments.apps.ExperimentsConfig',
+    'mice.apps.MiceConfig',
+    'analysis.apps.AnalysisConfig',
+    'favorite_mice.apps.FavoriteMiceConfig',
     'users.apps.UsersConfig',
 
-    'rest_framework_swagger',  # Swagger
+    'watchers.apps.WatchersConfig',
 ]
 
 # For rest framework swagger
 REST_FRAMEWORK = {
-    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
     'DEFAULT_PARSER_CLASSES': [
-        'rest_framework.parsers.FormParser',
-        'rest_framework.parsers.MultiPartParser',
         'rest_framework.parsers.JSONParser',
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -106,14 +106,14 @@ WSGI_APPLICATION = 'admin.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('TRKIR_DB_NAME'),
-        'USER': os.environ.get('TRKIR_DB_USER'),
-        'PASSWORD': os.environ.get('TRKIR_DB_PASSWORD'),
-        'HOST': os.environ.get('TRKIR_DB_HOST'),
-        'PORT': os.environ.get('TRKIR_DB_PORT'),
+        'NAME': os.getenv('TRKIR_DB_NAME'),
+        'USER': os.getenv('TRKIR_DB_USER'),
+        'PASSWORD': os.getenv('TRKIR_DB_PASSWORD'),
+        'HOST': os.getenv('TRKIR_DB_HOST'),
+        'PORT': os.getenv('TRKIR_DB_PORT'),
         'OPTIONS': {'sslmode': 'require'},
         'TEST': {
-            'NAME': 'test_{}'.format(os.environ.get('TRKIR_DB_NAME')),
+            'NAME': 'test_{}'.format(os.getenv('TRKIR_DB_NAME')),
         },
     }
 }

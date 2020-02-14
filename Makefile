@@ -14,7 +14,7 @@ init_n_start:
 	make start
 
 make_migrations:
-	python3 admin/manage.py makemigrations "$(PROJECT)"
+	python3 admin/manage.py makemigrations
 
 sqlmigration:
 	python3 admin/manage.py sqlmigrate "$(PROJECT)" "$(VERSION)"
@@ -30,3 +30,4 @@ lint:
 
 build_docker:
 	bash scripts/build.sh
+
